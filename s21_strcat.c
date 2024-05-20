@@ -2,19 +2,13 @@
 
 char *strcat(char *dest, const char *src){
 
-char *dest_string = dest;
-
-while (*dest_string != '\0'){
-    *dest_string++;
+    s21_size_t i = s21_strlen(dest);
+    if(dest && src){
+    while (*src != '\0'){
+     dest[i] = *src;
+        src++;
+         i++;
+    }
 }
-
-while (*src != '\0'){
-    *dest_string++ = *src++;
-}
-
-*dest_string = '\0';
-
-printf("%c", dest_string);
-
 return dest;
 }

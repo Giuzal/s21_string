@@ -1,7 +1,7 @@
 #include "s21_string.h"
 
 char *s21_strncpy(char *dest, const char *src, size_t n){
-    if (dest == NULL || src == NULL || n == 0){
+    if (n == 0){
         return dest;
     }
 

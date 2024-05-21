@@ -5,23 +5,22 @@ GFLAGS = -Wall -Wextra -Werror -std=c11
 SRCS = $(wildcard s21_*.c)
 HEADER = $(s21_string.h)
 
-
-OBJS=$(SRCS: .c=.o)
-
 EXIT_PATH=./
+
+#OBJS=$(SRCS: .c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(EXIT_PATH)$@
+$(NAME): $(SRCS)
+	$(CC) $(GFLAGS) $(SRCS) -o $(EXIT_PATH)$@
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(NAME)
 
 re:
 	make clean
 	make
 
-	.PHONY: $(NAME) all clean re
+	.PHONY: all clean re
 
 

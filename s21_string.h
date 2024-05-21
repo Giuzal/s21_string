@@ -7,7 +7,7 @@
 typedef unsigned long s21_size_t;
 
 s21_size_t s21_strlen(const char *str);
-s21_size_t s21_strspn(const char *string, const char *charset);
+size_t s21_strspn(const char *string, const char *charset);
 char *s21_strcat(char *dest, const char *src);
 char *s21_strncat(char *dest, const char *src, size_t n);
 char *s21_strcpy(char *dest, const char *src);

@@ -1,26 +1,26 @@
-NAME=s21_string
-
 CC = gcc
-GFLAGS = -Wall -Wextra -Werror -std=c11
-SRCS = $(wildcard s21_*.c)
-HEADER = $(s21_string.h)
+CFLAGS = -Wall -Wextra -Werror -pedantic -std=c11 -fsanitize=address -g
+GCOVFLAGS = -fprofile-arcs -ftest-coverage
 
-EXIT_PATH=./
+HEADER = s21_string.h
+SRC = $(wildard ./*.c)
 
-#OBJS=$(SRCS: .c=.o)
+OBJ_LIBRARY := $(patsubst %.c, %.o, $(SRC))
 
-all: $(NAME)
+%.o: %.c $(HEADER)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(SRCS)
-	$(CC) $(GFLAGS) $(SRCS) -o $(EXIT_PATH)$@
+all: s21_string.a gcov_report test
 
-clean:
-	rm -rf $(NAME)
+s21_string.a: $(OBJ_LIBRARY) $(HEADER)
+	ar rcs s21_string.a $(OBJ_LIBRARY)
+	ranlib s21_string.a
+	rm -rf ./*.o 
 
-re:
-	make clean
-	make
+test: s21_string.a tests/test.c
+	$(CC) $(CFLAGS) tests/test.c s21_string.a -o test.out -lm -lcheck
+	./test.out
 
-	.PHONY: all clean re
-
-
+gcov_report: s21_string.a tests/test.c
+	$(CC) $(CFLAGS) tests/test.c $(SRC) -o report.out -lm -lcheck ./report.out
+	gcov -f $(SRC)

@@ -3,12 +3,10 @@
 char *strcat(char *dest, const char *src){
 
     s21_size_t i = s21_strlen(dest);
-    if(dest && src){
     while (*src != '\0'){
      dest[i] = *src;
         src++;
          i++;
     }
-}
 return dest;
 }

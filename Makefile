@@ -1,6 +1,7 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pedantic -std=c11 -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -pedantic -std=c11 -fsanitize=address -g -I/usr/local/include
 GCOVFLAGS = -fprofile-arcs -ftest-coverage
+LDFLAGS = -L/usr/local/lib -lcheck -lm -lpthread -lrt -lsubunit
 
 HEADER = s21_string.h
 SRC = $(wildcard ./*.c)
@@ -18,11 +19,11 @@ s21_string.a: $(OBJ_LIBRARY) $(HEADER)
 	rm -rf ./*.o 
 
 test: s21_string.a tests/test.c
-	$(CC) $(CFLAGS) tests/test.c s21_string.a -o test.out -lm -lcheck
+	$(CC) $(CFLAGS) tests/test.c s21_string.a -o test.out $(LDFLAGS)
 	./test.out
 
 gcov_report: s21_string.a tests/test.c
-	$(CC) $(CFLAGS) tests/test.c $(SRC) -o report.out -lm -lcheck ./report.out
+	$(CC) $(CFLAGS) tests/test.c $(SRC) -o report.out $(LDFLAGS)
 	gcov -f $(SRC)
 	lcov -t "gcov_report" -o coverage_report.info  -c -d .
 	genhtml -o ./report coverage_report.info

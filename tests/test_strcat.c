@@ -1,4 +1,4 @@
-#include "../tests_h/s21_tests.h"
+#include "s21_tests.h"
 
 START_TEST(Hello_World) {
     char src[] = " World!!!";

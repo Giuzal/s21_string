@@ -27,10 +27,10 @@ void run_tests(void) {
     Suite *list_test_suites[] = {
         //suite_memchr(),   suite_memcmp(),   suite_memcpy(),
        // suite_memmove(),  suite_memset(),   
-        suite_strcat(),
+        suite_strcat(), suite_strlen(),
         // suite_strncat(),  suite_strchr(),   suite_strcmp(),
         // suite_strncmp(),  suite_strcpy(),   suite_strncpy(),
-        // suite_strcspn(),  suite_strerror(), suite_strlen(),
+        // suite_strcspn(),  suite_strerror(), 
         // suite_strpbrk(),  suite_strrchr(),  suite_strspn(),
         // suite_strstr(),   suite_insert(),   suite_to_lower(),
         // suite_to_upper(), suite_trim(),     suite_strtok(),

@@ -21,10 +21,6 @@ s21_string.a: $(OBJ_LIBRARY) $(HEADER)
 	ranlib s21_string.a
 	rm -rf ./*.o
 
-test: s21_string.a $(OBJ_TESTS)
-	$(CC) $(CFLAGS) $(OBJ_TESTS) s21_string.a -o test.out $(LDFLAGS)
-	./test.out
-
 gcov_report: s21_string.a $(OBJ_TESTS)
 	$(CC) $(CFLAGS) $(OBJ_TESTS) $(SRC) -o report.out $(LDFLAGS)
 	gcov -f $(SRC)
@@ -33,8 +29,13 @@ gcov_report: s21_string.a $(OBJ_TESTS)
 	rm -f *.gcda *.gcno *.info  *.gcov report.out
 	open ./report/index-sort-f.html
 
+test: s21_string.a $(OBJ_TESTS)
+	$(CC) $(CFLAGS) $(OBJ_TESTS) s21_string.a -o test.out $(LDFLAGS)
+	./test.out
+
+
 check:
-	clang-format -style=Google -n ./*/*.c
+	clang-format -style=Google -n -fprofile-instr-generate -fcoverage-mapping ./*/*.c
 
 rebuild: clean all
 

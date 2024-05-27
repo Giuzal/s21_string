@@ -8,6 +8,7 @@
 #include "../s21_string.h"
 
 Suite *suite_strcat(void);
+Suite *suite_strlen(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);

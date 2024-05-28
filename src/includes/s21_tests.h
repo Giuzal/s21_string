@@ -12,8 +12,13 @@ Suite *suite_strlen(void);
 Suite *suite_strncat(void);
 Suite *suite_strcpy(void);
 Suite *suite_strncpy(void);
+Suite *suite_strtok(void);
+Suite *suite_strpbrk(void);
+Suite *suite_strchr(void);
+Suite *suite_strspn(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);
+
 
 #endif // SRS_TESTS_S21_TESTS_H_

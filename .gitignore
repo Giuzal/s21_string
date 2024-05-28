@@ -1,0 +1,6 @@
+s21_string.a
+coverage_report.info
+.vscode
+*.o
+*.out
+*.info

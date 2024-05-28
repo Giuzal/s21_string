@@ -11,6 +11,7 @@ Suite *suite_strcat(void);
 Suite *suite_strlen(void);
 Suite *suite_strncat(void);
 Suite *suite_strcpy(void);
+Suite *suite_strncpy(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);

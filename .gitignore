@@ -1,6 +1,8 @@
-s21_string.a
+*.a
 coverage_report.info
 .vscode
 *.o
 *.out
 *.info
+*.html
+*_gcov

@@ -41,7 +41,7 @@ START_TEST(Hello_World_l) {
 } END_TEST
 
 START_TEST(Hello_World_p) {
-    char str1[] = "Hello World Peace";
+    char str1[] = "Hello World peace";
     char str2 = 'p';
 
     ck_assert_pstr_eq(s21_strchr(str1, str2),
@@ -57,7 +57,7 @@ START_TEST(hidden_o) {
 } END_TEST
 
 START_TEST(find_zero) {
-    char str1[] = "123456789";
+    char str1[] = "1234506789";
     char str2 = '0';
 
     ck_assert_pstr_eq(s21_strchr(str1, str2),

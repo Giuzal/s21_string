@@ -57,8 +57,8 @@ START_TEST(empty_num) {
 
 START_TEST(hello) {
     char src[] = " my dear friend\"";
-    char res[5 + 15] = "Hello";
-    char expected[5 + 15] = "Hello";
+    char res[5 + 25] = "Hello";
+    char expected[5 + 25] = "Hello";
 
     s21_strcpy(res, src);
     strcpy(expected, src);
@@ -68,8 +68,8 @@ START_TEST(hello) {
 
 START_TEST(over_string) {
     char src[] = "hel\0lo";
-    char res[10 + 9] = "Wor\0ld";
-    char expected[10 + 9] = "Wor\0ld";
+    char res[10 + 10] = "Wor\0ld";
+    char expected[10 + 10] = "Wor\0ld";
 
     s21_strcpy(res, src);
     strcpy(expected, src);
@@ -79,8 +79,8 @@ START_TEST(over_string) {
 
 START_TEST(hard_test) {
     char src[] = "1234567890qwerty?!!";
-    char res[49 + 42] = "1234567890qwerty?![]0QWERTY";
-    char expected[49 + 42] = "1234567890qwerty?![]0QWERTY";
+    char res[50 + 50] = "1234567890qwerty?![]0QWERTY";
+    char expected[50 + 50] = "1234567890qwerty?![]0QWERTY";
 
     s21_strcpy(res, src);
     strcpy(expected, src);

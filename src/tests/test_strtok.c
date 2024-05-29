@@ -175,8 +175,8 @@ START_TEST(even_n_of_delims) {
 } END_TEST
 
 START_TEST(odd_n_of_delims) {
-    char str1[] = "Hello__+World_  Linux";
-    char str2[] = "Hello__+World_  Linux";
+    char str1[] = "Hello__+World__  Linux";
+    char str2[] = "Hello__+World__ Linux";
     const char delims[] = "+_! =";
 
     char *got = s21_strtok(str1, delims);

@@ -56,7 +56,7 @@ START_TEST(just_e) {
                       strpbrk(str1, str2));
 } END_TEST
 
-START_TEST(find_zero) {
+START_TEST(find_E) {
     char str1[] = "eeeeeeeeE";
     char str2[] = "\0";
 
@@ -76,7 +76,7 @@ Suite *suite_strpbrk(void) {
     tcase_add_test(tc, hello_world_l);
     tcase_add_test(tc, hello_world_e);
     tcase_add_test(tc, just_e);
-    tcase_add_test(tc, find_zero);
+    tcase_add_test(tc, find_E);
 
     suite_add_tcase(s, tc);
     return s;

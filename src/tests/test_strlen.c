@@ -57,7 +57,7 @@ START_TEST(some_Other_Text) {
 } END_TEST
 
 START_TEST(love_Love) {
-    char src[] = "kot Vasily";
+    char src[] = "Kot_love_";
 
     ck_assert_int_eq(s21_strlen(src),
                      strlen(src));

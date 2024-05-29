@@ -12,7 +12,7 @@ START_TEST(empty) {
     ck_assert_mem_ge(res, expected, n_byte);
 } END_TEST
 
-START_TEST(zero_byte) {
+START_TEST(no_byte) {
     char src[] = "hello";
     char res[10] = "";
     char expected[10] = "";
@@ -127,7 +127,7 @@ Suite *suite_strncat(void) {
     TCase *tc = tcase_create("strncat_tc");
 
     tcase_add_test(tc, empty);
-    tcase_add_test(tc, zero_byte);
+    tcase_add_test(tc, no_byte);
     tcase_add_test(tc, empty_src);
     tcase_add_test(tc, cd_world);
     tcase_add_test(tc, string);

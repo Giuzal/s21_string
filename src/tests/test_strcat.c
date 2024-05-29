@@ -35,8 +35,8 @@ START_TEST(empty_last) {
 
 START_TEST(check_register) {
     char src[] = "WoRlD";
-    char res[5 + 53] = "Hello";
-    char expected[5 + 53] = "Hello";
+    char res[5 + 5] = "Hello";
+    char expected[5 + 5] = "Hello";
 
     s21_strcat(res, src);
     strcat(expected, src);
@@ -46,8 +46,8 @@ START_TEST(check_register) {
 
 START_TEST(check_register_and_num) {
     char src[] = "W0r1d";
-    char res[5 + 59] = "Hello";
-    char expected[5 + 59] = "Hello";
+    char res[5 + 5] = "Hello";
+    char expected[5 + 5] = "Hello";
 
     s21_strcat(res, src);
     strcat(expected, src);
@@ -57,8 +57,8 @@ START_TEST(check_register_and_num) {
 
 START_TEST(check_register_and_num_and_sim) {
     char src[] = "W0rlD?!";
-    char res[5 + 65] = "Hello";
-    char expected[5 + 65] = "Hello";
+    char res[5 + 5] = "Hello";
+    char expected[5 + 5] = "Hello";
 
     s21_strcat(res, src);
     strcat(expected, src);

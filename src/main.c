@@ -6,42 +6,35 @@ int main(void) {
 }
 
 void run_test_suite(Suite *test_suite) {
-    static int counter = 1;
+    static int number_of_test = 1;
 
-    if (counter > 1)
-        putchar('\n');
-    printf("%s%d%s", "CURRENT TEST SUITE: ", counter, "\n");
-    counter++;
-
+    printf("\nRunning Test Suite: %d\n", number_of_test++);
+    
     SRunner *sr = srunner_create(test_suite);
     if (sr != NULL) {
         srunner_set_fork_status(sr, CK_NOFORK);
         srunner_run_all(sr, CK_NORMAL);
         srunner_free(sr);
     } else {
-        fprintf(stderr, "Error creating SRunner\n");
+        fprintf(stderr, "Failed to create test suite runner\n");
     }
 }
 
 void run_tests(void) {
-    Suite *list_test_suites[] = {
-        //suite_memchr(),   suite_memcmp(),   suite_memcpy(),
-       // suite_memmove(),  suite_memset(),   
+    Suite *test_suite_array[] = {
         suite_strcat(), suite_strlen(), suite_strncat(),  
         suite_strcpy(), suite_strncpy(), suite_strtok(),
         suite_strpbrk(), suite_strchr(), suite_strspn(),
-        //    suite_strcmp(),
-        // suite_strncmp(),     
-        // suite_strcspn(),  suite_strerror(), 
-        //   suite_strrchr(),
-        // suite_strstr(),   suite_insert(),   suite_to_lower(),
-        // suite_to_upper(), suite_trim(),     
-        // suite_sprintf(),  suite_atoi(),     suite_strntollu(),
-        // suite_strtold(),  suite_sscanf(),   
-        NULL};
+        suite_to_upper(), suite_to_lower(),
+        NULL
+    };
 
-    for (Suite **current_test_suite = list_test_suites; *current_test_suite != NULL;
-         current_test_suite++) {
-        run_test_suite(*current_test_suite);
+    if (test_suite_array[0] == NULL) {
+        printf("Test suite array is empty\n");
+        return;
+    }
+
+    for (int i = 0; test_suite_array[i] != NULL; i++) {
+        run_test_suite(test_suite_array[i]);
     }
 }

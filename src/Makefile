@@ -108,6 +108,6 @@ fclean: clean
 	$(RM) -r $(COVERAGE_REPORT)
 
 re: fclean all
-	Z@echo "$(GREEN)Rebuild complete.$(RESET)"
+	@echo "$(GREEN)Rebuild complete.$(RESET)"
 
 .PHONY: all clean fclean re open

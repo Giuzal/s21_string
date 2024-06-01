@@ -2,16 +2,16 @@ CC=gcc
 
 TARGET?=s21_string.a
 TEST_TARGET?=test_s21_string.a
-TEST_EXE?=test
-TEST_GCOV_EXE?=test_gcov
-GCOV_TARGET=./coverage
-GCOV_INFO=coverage.info
+TEST_OUTPUT?=test
+TEST_GCOV_OUTPUT?=test_gcov
+COVERAGE_REPORT=./coverage
+COVERAGE_INFO=coverage.info
 
 SRC_DIR?=.
 TEST_SRC_DIR?=./tests
 
-OBJ_DIR?=./objs
-TEST_OBJ_DIR?=./tests/objs
+OBJ_DIR?=./objects
+TEST_OBJ_DIR?=./tests/objects
 
 INC_DIR:=./
 TEST_INC_DIR:=./includes
@@ -24,88 +24,90 @@ TEST_SRC:=$(shell find $(TEST_SRC_DIR) -name "*.c")
 
 OBJS:=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 GCOV_OBJS:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
-TEST_OBJS:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(TEST_SRC:.c=.o))) # $(TEST_OBJ_DIR)/main.o
+TEST_OBJS:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(TEST_SRC:.c=.o)))
+
+MAIN_OBJ:=$(OBJ_DIR)/main.o
 
 GCDA=$(shell find $(TEST_OBJ_DIR) -name "*.gcda")
 GCNO=$(shell find $(TEST_OBJ_DIR) -name "*.gcno")
 
 AR:= ar rc
-RAN:= ranlib
+INDEX:= ranlib
 RM:= rm -f
 MK:=mkdir -p
 
-ASAN:=#-fsanitize=address
-STDFLAGS=-c -Wall -Wextra -Werror -std=c11
-CFLAGS?= $(STDFLAGS) $(ASAN)
-TST_CFLAGS:= -g $(STDFLAGS) #$(shell pkg-config --cflags check)
+GFLAGS=-c -Wall -Wextra -Werror -std=c11
+CFLAGS?= $(GFLAGS)
+TEST_FLAGS:= -g $(GFLAGS) 
 GCOV_FLAGS?=-fprofile-arcs -ftest-coverage
 TST_LIBS?=$(shell pkg-config --cflags --libs check) -lm
 
-all: test  s21_string.a gcov_report
+RESET := \033[0m
+GREEN := \033[0;32m
+RED := \033[0;31m
+YELLOW := \033[1;33m
 
-gcov_obj: $(GCOV_OBJ)
+all: $(TARGET) test gcov_report
+	@echo "$(GREEN)All targets built successfully.$(RESET)"
 
 $(TARGET): $(OBJS)
 	$(AR) $(TARGET) $(OBJS)
-	$(RAN) $(TARGET)
+	$(INDEX) $(TARGET)
 
-$(TEST_TARGET): $(GCOV_OBJS) $(INC)
-	$(AR) $(TEST_TARGET) $(GCOV_OBJS)
-	$(RAN) $(TEST_TARGET)
-
-test: $(TARGET) $(TEST_OBJ_DIR)/main.o $(TEST_OBJS) $(TEST_INC) 
-	$(CC) $(TEST_OBJS) $(TEST_OBJ_DIR)/main.o $(ASAN) $(GCOV_FLAGS) -o $(TEST_EXE) $(TST_LIBS) -L. $(TARGET)
-
-test_gcov: $(TEST_TARGET) $(TEST_OBJ_DIR)/main.o $(TEST_OBJS) 
-	$(CC) $(TEST_OBJS) $(TEST_OBJ_DIR)/main.o $(GCOV_FLAGS) -o $(TEST_GCOV_EXE) $(TST_LIBS) -L. $(TEST_TARGET)
-
-$(TEST_OBJ_DIR)/main.o: main.c 
-	@$(MK) $(TEST_OBJ_DIR)
-	$(CC) $(CFLAGS) -o $(TEST_OBJ_DIR)/main.o main.c  
-
-$(TEST_OBJ_DIR)%.o: $(TEST_SRC_DIR)%.c $(TEST_INC) 
-	@$(MK) $(TEST_OBJ_DIR)
-	$(CC) $(TST_CFLAGS) -o $@ -c $<
-
-$(OBJS): $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC) 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC)
 	@$(MK) $(OBJ_DIR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(GCOV_OBJS): $(TEST_OBJ_DIR)%.o: $(SRC_DIR)%.c $(TEST_INC)
+$(TEST_OBJ_DIR)/%.o: $(TEST_SRC_DIR)/%.c $(TEST_INC)
 	@$(MK) $(TEST_OBJ_DIR)
+	$(CC) $(TEST_FLAGS) -o $@ -c $<
+
+$(MAIN_OBJ): $(SRC_DIR)/main.c $(INC)
+	@$(MK) $(OBJ_DIR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-gcov_report: $(GCOV_TARGET)
+test: $(TARGET) $(MAIN_OBJ) $(TEST_OBJS) $(TEST_INC) 
+	@echo "$(YELLOW)Running tests...$(RESET)"
+	$(CC) $(TEST_OBJS) $(MAIN_OBJ) $(GCOV_FLAGS) -o $(TEST_OUTPUT) $(TST_LIBS) -L. $(TARGET)
+	@./$(TEST_OUTPUT) && echo "$(GREEN)Tests Passed$(RESET)" || echo "$(RED)Tests Failed$(RESET)"
 
-$(GCOV_TARGET): CFLAGS += $(GCOV_FLAGS)
-$(GCOV_TARGET): $(GCOV_INFO)
-	genhtml $(GCOV_INFO) -o $(GCOV_TARGET)
+gcov_report: $(COVERAGE_REPORT)
+	@echo "$(YELLOW)Generating coverage report...$(RESET)"
+	genhtml $(COVERAGE_INFO) -o $(COVERAGE_REPORT)
+	@echo "$(GREEN)Coverage report generated successfully.$(RESET)"
 
-$(GCOV_INFO): test_gcov
-	./$(TEST_GCOV_EXE)
-	geninfo $(TEST_OBJ_DIR) -b . -o ./$(GCOV_INFO)
+$(COVERAGE_REPORT): CFLAGS += $(GCOV_FLAGS)
+$(COVERAGE_REPORT): $(COVERAGE_INFO)
+	genhtml $(COVERAGE_INFO) -o $(COVERAGE_REPORT)
 
+$(COVERAGE_INFO): test_gcov
+	@echo "$(YELLOW)Generating coverage data...$(RESET)"
+	./$(TEST_GCOV_OUTPUT)
+	geninfo $(TEST_OBJ_DIR) -b . -o ./$(COVERAGE_INFO)
+	@echo "$(GREEN)Coverage data generated successfully.$(RESET)"
 
 open:
 	open coverage/src/index.html
 
 clean:
+	@echo "$(YELLOW)Cleaning up...$(RESET)"
 	$(RM) $(OBJS)
 	$(RM) $(GCDA)
 	$(RM) $(GCNO)
 	$(RM) $(TEST_OBJS)
 	$(RM) $(GCOV_OBJS)
-	$(RM) tests/objs/main.o
+	$(RM) $(MAIN_OBJ)
 
 fclean: clean
+	@echo "$(YELLOW)Performing full clean...$(RESET)"
 	$(RM) $(TARGET)
 	$(RM) $(TEST_TARGET)
-	$(RM) $(TEST_EXE)
-	$(RM) $(TEST_GCOV_EXE)
-	$(RM) $(GCOV_INFO)
-	$(RM) -r $(GCOV_TARGET)
-	$(RM) tests/objs/main.o
+	$(RM) $(TEST_OUTPUT)
+	$(RM) $(TEST_GCOV_OUTPUT)
+	$(RM) $(COVERAGE_INFO)
+	$(RM) -r $(COVERAGE_REPORT)
 
 re: fclean all
+	Z@echo "$(GREEN)Rebuild complete.$(RESET)"
 
-.PHONY: all clean fclean re open 
+.PHONY: all clean fclean re open

@@ -15,5 +15,5 @@ char *s21_strncpy(char *dest, const char *src, size_t n);
 char *s21_strpbrk(const char *str1, const char *str2);
 char *s21_strchr(const char *str, int c);
 char *s21_strtok(char *str, const char *delim);
-//void *s21_to_upper(const char *str);
+void *s21_to_upper(const char *str);
 #endif // S21_STRING_H

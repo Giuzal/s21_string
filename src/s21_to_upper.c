@@ -10,7 +10,7 @@ void *s21_to_upper(const char *str){
         upper_str = (char *)malloc((lenght + 1) * sizeof(char));
 
         if(upper_str){
-            for(int i = 0; i <= lenght; ++i){
+            for(s21_size_t i = 0; i <= lenght; ++i){
                 if(str[i] >= 'a' && str[i] <= 'z')
                     upper_str[i] = (str[i] - 'a') + 'A';
                 else 

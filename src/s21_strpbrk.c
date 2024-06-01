@@ -1,16 +1,16 @@
 #include "s21_string.h"
 
-char *s21_strpbrk(const char *string, const char *charset){
-    while(*string != '\0')
+char *s21_strpbrk(const char *str1, const char *str2){
+    while(*str1 != '\0')
     {
-        const char *temp = charset;
+        const char *temp = str2;
         while (*temp != '\0'){
-            if (*string == *temp){
-                return (char *) string;
+            if (*str1 == *temp){
+                return (char *) str1;
             }
             temp++;
         }
-        string++;
+        str1++;
     }
 
     return S21_NULL;

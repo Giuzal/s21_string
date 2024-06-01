@@ -1,12 +1,12 @@
 #include "s21_string.h"
 
-char *s21_strchr(const char *string, int c){
+char *s21_strchr(const char *str, int c){
     char *result = S21_NULL;
-    while((*string != '\0') && (*string != c)){
-        string++;
+    while((*str != '\0') && (*str != c)){
+        str++;
     }
-    if(*string == c){
-        result = (char*)string;
+    if(*str == c){
+        result = (char*)str;
     }
     return result;
 }

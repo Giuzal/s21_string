@@ -1,27 +1,27 @@
 #include "s21_string.h"
 
-char *s21_strtok(char *string, const char *delim){
+char *s21_strtok(char *str, const char *delim){
     static char *saveptr;
     char *token;
 
-    if (string ==  S21_NULL){
-        string = saveptr;
+    if (str ==  S21_NULL){
+        str = saveptr;
     }
 
-    string += s21_strspn(string, delim);
+    str += s21_strspn(str, delim);
 
-    if(*string == '\0'){
-        saveptr = string;
+    if(*str == '\0'){
+        saveptr = str;
         return S21_NULL;
     }
 
-    token = string;
-    string = s21_strpbrk(token, delim);
-    if (string == S21_NULL){
+    token = str;
+    str = s21_strpbrk(token, delim);
+    if (str == S21_NULL){
         saveptr = s21_strchr(token, '\0');
     } else {
-        *string = '\0';
-        saveptr = string + 1;
+        *str = '\0';
+        saveptr = str + 1;
     }
 
     return token;

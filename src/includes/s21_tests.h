@@ -16,6 +16,7 @@ Suite *suite_strtok(void);
 Suite *suite_strpbrk(void);
 Suite *suite_strchr(void);
 Suite *suite_strspn(void);
+Suite *suite_to_upper(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);

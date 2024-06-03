@@ -6,3 +6,6 @@ coverage_report.info
 *.info
 *.html
 *_gcov
+*/test
+*/coverage
+*objs
